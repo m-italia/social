@@ -3,100 +3,400 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linktree Personalizzato M Italia</title>
-  
-  <!-- Google Fonts: Titillium Web -->
-  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap" rel="stylesheet">
+  <title>M-Italia</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* ─── VARIABLES ─────────────────────────────────────────── */
+    :root {
+      --red:         #d20a10;
+      --red-dim:     rgba(210, 10, 16, 0.12);
+      --black:       #000000;
+      --white:       #ffffff;
+      --gray:        #777777;
+      --border:      rgba(255,255,255,0.22);
+      --wa-green:    #25D366;
+      --wa-dim:      rgba(37, 211, 102, 0.10);
+      --wa-border:   rgba(37, 211, 102, 0.45);
+      --maps-blue:   #4285F4;
+      --maps-dim:    rgba(66, 133, 244, 0.10);
+      --maps-border: rgba(66, 133, 244, 0.45);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: 'Titillium Web', sans-serif;
-      background-color: #000000;
+      background-color: #111111;
+      color: var(--white);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      color: #d20a10;
-      padding: 40px 20px 20px 20px;
-      box-sizing: border-box;
-      text-align: center;
+      padding: 32px 24px 24px;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Logo M-Italia */
+    /* ─── BACKGROUND ─────────────────────────────────────────── */
+    /* ─── BACKGROUND IMAGE ───────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url('https://cdn.jsdelivr.net/gh/m-italia/social@main/icons/sfondo-linktree.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* overlay scuro per leggibilità */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── WRAPPER ────────────────────────────────────────────── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* ─── LOGO ───────────────────────────────────────────────── */
+    .logo-wrap {
+      margin-bottom: 6px;
+      opacity: 0;
+      transform: translateY(-18px);
+      animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+    }
     img.profile {
-      width: 140px; /* massimo 140px */
-      margin-bottom: 15px;
-    }
-
-    /* Payoff sotto il logo */
-    .payoff {
-      color: #ffffff;
-      font-size: 18px;
-      margin-bottom: 30px;
-      line-height: 1.2;
-      font-weight: 400;
-    }
-
-    /* Pulsanti */
-    .link-button {
+      width: 100px;
       display: block;
-      width: 250px;
-      padding: 14px 0;
-      margin: 10px 0;
+      filter: drop-shadow(0 8px 28px rgba(210,10,16,0.30));
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────────────── */
+    .divider {
+      width: 36px;
+      height: 2px;
+      background: var(--red);
+      margin: 8px auto 10px;
+      opacity: 0;
+      transform: scaleX(0);
+      animation: scaleIn 0.5s ease 0.3s forwards;
+    }
+
+    /* ─── PAYOFF ─────────────────────────────────────────────── */
+    .payoff {
+      font-size: 11px;
+      font-weight: 300;
+      font-style: normal;
+      color: var(--white);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1.4;
       text-align: center;
-      color: #d20a10;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.28s forwards;
+    }
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .link-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 13px 20px;
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
       text-decoration: none;
-      border: 2px solid #d20a10;
-      background-color: #000000;
-      font-weight: bold;
-      font-size: 16px;
-      transition: all 0.3s;
-      border-radius: 0; /* angoli squadrati */
+      color: var(--white);
+      background: transparent;
+      /* bordo più spesso e più visibile */
+      border: 2px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      opacity: 0;
+      transform: translateY(16px);
+      -webkit-tap-highlight-color: transparent;
     }
 
+    /* staggered entry dal basso — ottimo su mobile */
+    .link-button:nth-child(1) { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.40s forwards; }
+    .link-button:nth-child(2) { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.50s forwards; }
+    .link-button:nth-child(3) { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.60s forwards; }
+    .link-button:nth-child(4) { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.70s forwards; }
+    .link-button:nth-child(5) { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.80s forwards; }
+    .link-button:nth-child(6) { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.90s forwards; }
+
+    /* barra accent sinistra */
+    .link-button::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--red);
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 0.22s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* hover desktop */
     .link-button:hover {
-      background-color: #d20a10;
-      color: #000000;
+      border-color: var(--red);
+      background: var(--red-dim);
+      transform: translateY(-1px);
+    }
+    .link-button:hover::before { transform: scaleY(1); }
+
+    /* :active — feedback immediato al tap su mobile */
+    .link-button:active {
+      transform: scale(0.97);
+      background: var(--red-dim);
+      border-color: var(--red);
+    }
+    .link-button:active::before { transform: scaleY(1); }
+
+    /* ─── VARIANTI COLORE ────────────────────────────────────── */
+
+    /* Canale WhatsApp */
+    .link-button.btn-wa-channel {
+      border-color: var(--wa-border);
+    }
+    .link-button.btn-wa-channel::before { background: var(--wa-green); }
+    .link-button.btn-wa-channel:hover,
+    .link-button.btn-wa-channel:active {
+      border-color: var(--wa-green);
+      background: var(--wa-dim);
     }
 
-    /* Footer */
+    /* Scrivici su WhatsApp — testo verde */
+    .link-button.btn-wa {
+      border-color: var(--wa-border);
+      color: var(--wa-green);
+    }
+    .link-button.btn-wa::before { background: var(--wa-green); }
+    .link-button.btn-wa:hover,
+    .link-button.btn-wa:active {
+      border-color: var(--wa-green);
+      background: var(--wa-dim);
+      color: var(--wa-green);
+    }
+
+    /* Vieni a trovarci — blu Maps */
+    .link-button.btn-maps {
+      border-color: var(--maps-border);
+    }
+    .link-button.btn-maps::before { background: var(--maps-blue); }
+    .link-button.btn-maps:hover,
+    .link-button.btn-maps:active {
+      border-color: var(--maps-blue);
+      background: var(--maps-dim);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
-      margin-top: 50px;
-      padding-top: 20px;
+      margin-top: 20px;
+      padding-top: 14px;
+      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.08);
       text-align: center;
-      color: #ffffff;
-      font-size: 12px;
-      border-top: 1px solid #ffffff;
-      line-height: 1.5;
-      max-width: 600px;
+      color: #777777;
+      font-size: 10.5px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.1s forwards;
+    }
+    footer strong {
+      display: block;
+      font-weight: 700;
+      color: #999999;
+      letter-spacing: 0.18em;
+      font-size: 10.5px;
+    }
+
+    /* ─── SOCIAL ICONS ───────────────────────────────────────── */
+    .social-bar {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+      margin-bottom: 4px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .social-link:hover,
+    .social-link:active {
+      background: var(--red);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .social-link svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* ─── KEYFRAMES ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      to { opacity: 1; transform: scaleX(1); }
+    }
+
+    /* ─── SCANLINE ───────────────────────────────────────────── */
+    .scanline {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent, transparent 3px,
+        rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
     }
   </style>
 </head>
+
 <body>
-  <!-- Logo M-Italia -->
-  <img src="https://raw.githubusercontent.com/m-italia/firma-email-assets/refs/heads/main/icons/logo-m-italia-big-wht.svg" alt="M-Italia Logo" class="profile">
+  <div class="scanline"></div>
 
-  <!-- Payoff -->
-  <div class="payoff">
-    automotive technology<br>
-    with italian passion
+  <div class="wrapper">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img
+        src="https://raw.githubusercontent.com/m-italia/social/refs/heads/main/icons/logo-m-italia-big-wht.svg"
+        alt="M-Italia Logo"
+        class="profile"
+      >
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Payoff -->
+    <div class="payoff">
+      automotive technology<br>with italian passion
+    </div>
+
+    <!-- Links -->
+    <nav class="links">
+
+      <a href="https://www.m-italia.com" class="link-button">
+        Visita il sito
+      </a>
+
+      <a href="https://www.m-italia.com/galleria/" class="link-button">
+        Realizzazioni
+      </a>
+
+      <a href="tel:+390422178313" class="link-button">
+        Chiamaci
+      </a>
+
+      <a href="https://www.google.com/maps/search/?api=1&query=Via+Tommaso+Abbate+43+Quarto+d%27Altino+VE+Italia" target="_blank" rel="noopener" class="link-button btn-maps">
+        Vieni a trovarci
+      </a>
+
+      <a href="https://whatsapp.com/channel/0029Vb7VErl5q08b8mqrUT1x" target="_blank" rel="noopener" class="link-button btn-wa-channel">
+        Iscriviti al Canale WhatsApp
+      </a>
+
+      <a href="https://wa.me/390422178313" target="_blank" rel="noopener" class="link-button btn-wa">
+        Scrivici su WhatsApp
+      </a>
+
+    </nav>
+
+    <!-- Social Bar -->
+    <div class="social-bar">
+
+      <!-- Facebook -->
+      <a href="#" class="social-link" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+
+      <!-- Instagram -->
+      <a href="#" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="#" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+
+      <!-- YouTube -->
+      <a href="#" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#000" stroke="none"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      Copyright © 2026 – Tutti i diritti riservati
+      <strong>M-ITALIA SRL</strong>
+      Via Tommaso Abbate, 43 — 30020 Quarto d'Altino (VE)<br>
+      Partita IVA IT01333670329
+    </footer>
+
   </div>
-
-  <!-- Pulsanti -->
-  <a href="https://www.m-italia.com" class="link-button">VISITA IL SITO</a>
-  <a href="https://www.m-italia.com/galleria" class="link-button">GALLERIA</a>
-  <a href="https://whatsapp.com/channel/0029Vb7VErl5q08b8mqrUT1x" class="link-button">CANALE WHATSAPP</a>
-  <a href="https://www.m-italia.com/contatti" class="link-button">CONTATTACI</a>
-
-  <!-- Footer -->
-  <footer>
-    Copyright © 2026 – Tutti i diritti riservati<br>
-    <strong>M-ITALIA SRL</strong><br>
-    Via Tommaso Abbate, 43<br>
-    30020 Quarto d'Altino (VE)<br>
-    Partita IVA IT01333670329
-  </footer>
 </body>
 </html>
